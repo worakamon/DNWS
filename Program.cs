@@ -9,6 +9,11 @@ using System.Threading;
 
 namespace DNWS
 {
+    // How to run the server
+    // 1.Open cmd and guide to the folder path to create database
+    // 2.Type "dotnet ef migrations add InitialCreate" and "dotnet ef database update" without quote
+    // 3.Then type "dotnet run Program.cs" without quote to run the server
+
     // Main class
     public class Program
     {

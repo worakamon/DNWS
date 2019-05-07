@@ -99,6 +99,22 @@ namespace DNWS
                 context.SaveChanges();
             }
         }
+        public List<Following> GetFollowing()
+        {
+            if (user == null)
+            {
+                throw new Exception("User is not set");
+            }
+            using (var context = new TweetContext())
+            {
+                List<Following> followings = user.Following;
+                if (followings == null || followings.Count == 0)
+                {
+                    return null;
+                }
+                return followings;
+            }
+        }
         public List<Tweet> GetTimeline(User aUser)
         {
             if (aUser == null)
@@ -176,6 +192,23 @@ namespace DNWS
                 context.SaveChanges();
             }
         }
+        public static void RemoveUser(string user)
+        {
+            if(user == null)
+            {
+                throw new Exception("User is not set");
+            }
+            using(var context = new TweetContext())
+            {
+                List<User> listuser = context.Users.Where(b => b.Name.Equals(user)).ToList();
+                if(listuser.Count < 1)
+                {
+                    throw new Exception("User not found");
+                }
+                context.Users.Remove(listuser[0]);
+                context.SaveChanges();
+            }
+        }                                                 
 
         public static bool IsValidUser(string name, string password)
         {
@@ -273,7 +306,7 @@ namespace DNWS
         }
 
 
-        public HTTPResponse GetResponse(HTTPRequest request)
+        public virtual HTTPResponse GetResponse(HTTPRequest request)
         {
             HTTPResponse response = new HTTPResponse(200);
             StringBuilder sb = new StringBuilder();
